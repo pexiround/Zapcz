@@ -3,60 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapcz Projects</title>
+    <title>Zapcz | Systems & Software</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<nav class="navbar">
+    <div class="logo-area">
+        <img src="zapcz.png" alt="Zapcz Logo">
+        <span>ZAPCZ</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#os-projects">OS Projects</a></li>
+        <li><a href="#tools">Tools</a></li>
+    </ul>
+</nav>
+
 <header class="hero">
-    <img src="zapcz.png" class="logo">
-    <h1>ZAPCZ</h1>
-    <p class="tagline">Independent systems development and software distribution.</p>
+    <h1>Independent Systems Development</h1>
+    <p class="tagline">Low-level software, operating systems, and custom tools for full system control.</p>
 </header>
 
-<section class="intro">
-    <p>
-        Hi, I'm the founder of Zapcz. This platform is dedicated to building and distributing
-        low-level software, operating systems, and custom tools designed for full system control.
-    </p>
-</section>
-
-<section class="projects">
-    <h2>Projects</h2>
-
-    <!-- zapczOS v1 -->
-    <div class="project">
-        <div class="project-info">
+<main class="container">
+    <!-- OS Projects Section -->
+    <section id="os-projects">
+        <h2>Operating Systems</h2>
+        
+        <div class="project-card">
             <h3>zapczOS v1</h3>
             <p>Custom 32-bit operating system built from the ground up.</p>
-            <div class="buttons">
-                <a href="zapczOSv1.img" download class="btn">Download OS v1</a>
+            <a href="zapczOSv1.img" download class="btn">Download v1</a>
+        </div>
+
+        <div class="project-card">
+            <h3>zapczOS v2 Series</h3>
+            <p>The latest iteration featuring performance improvements and stability updates.</p>
+            <div class="version-group">
+                <a href="zapczOS2.img" download class="btn secondary">Download v2.0</a>
+                <a href="zapczOS2.1.img" download class="btn secondary">Download v2.1</a>
             </div>
         </div>
-        <div class="project-pics">
-            <img src="zapczosv1pic1.png" alt="zapczOS v1 screenshot">
-            <img src="zapczosv1pic2.png" alt="zapczOS v1 screenshot">
-            <img src="zapczosv1pic3.png" alt="zapczOS v1 screenshot">
-        </div>
-    </div>
+    </section>
 
-    <!-- zapcz Shell -->
-    <div class="project">
-        <div class="project-info">
+    <!-- Tools Section -->
+    <section id="tools">
+        <h2>Tools</h2>
+        <div class="project-card">
             <h3>zapcz Shell</h3>
             <p>Custom command-line interface for system interaction.</p>
-            <div class="buttons">
-                <a href="zapcz_shell.exe" download class="btn">Download Shell</a>
-            </div>
+            <a href="zapcz_shell.exe" download class="btn">Download Shell</a>
         </div>
-    </div>
-
-</section>
+    </section>
+</main>
 
 <footer>
     <p>© 2026 Zapcz. All rights reserved.</p>
 </footer>
 
-<script src="app.js"></script>
 </body>
 </html>
