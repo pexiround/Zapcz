@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZapczOS V2</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1a1a; color: #ffffff; font-family: monospace;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0; padding: 20px;
+        }
+        #os-container {
+            border: 4px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.7); background: #000;
+        }
+        canvas {
+            display: block;
+            image-rendering: optimizeSpeed;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: -o-crisp-edges;
+            image-rendering: pixelated;
+            -ms-interpolation-mode: nearest-neighbor;
+            width: 960px; /* Scaled exactly 3x */
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="os-container">
+    <canvas id="screen" width="320" height="200"></canvas>
+</div>
+
+<script>
+// --- TRUE 8x8 PIXEL FONT (ASCII 32 to 126) ---
+const font8x8 = [
+  [0,0,0,0,0,0,0,0], [24,60,60,24,24,0,24,0], [108,108,108,0,0,0,0,0], [108,108,254,108,254,108,108,0], [24,126,192,124,6,252,24,0], [0,198,204,24,48,102,198,0], [56,108,56,118,220,204,118,0], [48,48,96,0,0,0,0,0], [24,48,96,96,96,48,24,0], [96,48,24,24,24,48,96,0], [0,102,60,255,60,102,0,0], [0,24,24,126,24,24,0,0], [0,0,0,0,0,24,24,48], [0,0,0,126,0,0,0,0], [0,0,0,0,0,24,24,0], [6,12,24,48,96,192,128,0],
+  [124,198,206,214,230,198,124,0], [48,112,48,48,48,48,252,0], [120,204,12,56,96,204,252,0], [120,204,12,56,12,204,120,0], [28,60,108,204,254,12,30,0], [252,192,248,12,12,204,120,0], [56,96,192,248,204,204,120,0], [252,204,12,24,48,48,48,0], [120,204,204,120,204,204,120,0], [120,204,204,124,12,24,112,0], [0,24,24,0,0,24,24,0], [0,24,24,0,0,24,24,48], [24,48,96,192,96,48,24,0], [0,0,126,0,126,0,0,0], [96,48,24,12,24,48,96,0], [60,102,12,24,24,0,24,0],
+  [124,198,222,222,220,192,124,0], [48,120,204,204,252,204,204,0], [252,102,102,124,102,102,252,0], [60,102,192,192,192,102,60,0], [248,108,102,102,102,108,248,0], [252,96,96,120,96,96,252,0], [252,96,96,120,96,96,96,0], [60,102,192,206,198,102,62,0], [204,204,204,252,204,204,204,0], [120,48,48,48,48,48,120,0], [30,12,12,12,204,204,120,0], [230,102,108,120,108,102,230,0], [96,96,96,96,96,96,252,0], [198,238,254,254,214,198,198,0], [198,230,246,222,206,198,198,0], [56,108,198,198,198,108,56,0],
+  [252,102,102,124,96,96,96,0], [120,204,204,204,220,120,28,0], [252,102,102,124,108,102,230,0], [120,204,224,112,28,204,120,0], [252,180,48,48,48,48,120,0], [204,204,204,204,204,204,252,0], [204,204,204,204,204,120,48,0], [198,198,198,214,254,238,198,0], [198,198,108,56,56,108,198,0], [204,204,204,120,48,48,120,0], [254,198,140,24,50,102,254,0], [120,96,96,96,96,96,120,0], [192,96,48,24,12,6,2,0], [30,6,6,6,6,6,30,0], [24,60,102,0,0,0,0,0], [0,0,0,0,0,0,0,255],
+  [48,48,24,0,0,0,0,0], [0,0,120,12,124,204,118,0], [224,96,96,124,102,102,220,0], [0,0,120,204,192,204,120,0], [28,12,12,124,204,204,118,0], [0,0,120,204,252,192,120,0], [56,108,96,240,96,96,240,0], [0,0,118,204,204,124,12,248], [224,96,108,118,102,102,230,0], [24,0,56,24,24,24,60,0], [6,0,6,6,6,102,102,60], [224,96,102,108,120,108,230,0], [56,24,24,24,24,24,60,0], [0,0,236,254,214,214,214,0], [0,0,220,102,102,102,102,0], [0,0,120,204,204,204,120,0],
+  [0,0,220,102,102,124,96,240], [0,0,118,204,204,124,12,30], [0,0,220,118,102,96,240,0], [0,0,126,192,120,12,248,0], [16,48,124,48,48,52,24,0], [0,0,204,204,204,204,118,0], [0,0,204,204,204,120,48,0], [0,0,198,214,254,238,198,0], [0,0,198,108,56,108,198,0], [0,0,204,204,204,124,12,248], [0,0,252,152,48,100,252,0], [28,48,48,224,48,48,28,0], [24,24,24,0,24,24,24,0], [224,12,12,7,12,12,224,0], [118,220,0,0,0,0,0,0]
+];
+
+// --- VGA 13h PALETTE TRANSLATION ---
+const PALETTE = {
+    0: [0,0,0], 1: [0,0,170], 2: [0,170,0], 4: [170,0,0], 
+    7: [170,170,170], 8: [85,85,85], 9: [85,85,255], 10: [85,255,85], 
+    14: [255,255,85], 15: [255,255,255]
+};
+
+// --- CORE UTILS (Framebuffer Emulation) ---
+const canvas = document.getElementById("screen");
+const ctx = canvas.getContext("2d");
+const imgData = ctx.createImageData(320, 200);
+
+const SCR_W = 320;
+const SCR_H = 200;
+const v_mem = new Uint8Array(64000); 
+
+function draw_rect(x, y, w, h, col) {
+    for (let i = y; i < y + h; i++) {
+        for (let j = x; j < x + w; j++) {
+            if (i >= 0 && i < SCR_H && j >= 0 && j < SCR_W) v_mem[i * SCR_W + j] = col;
+        }
+    }
+}
+
+function draw_txt(x, y, s, col) {
+    for (let i = 0; i < s.length; i++) {
+        let charCode = s.charCodeAt(i) - 32;
+        if (charCode < 0 || charCode > 94) charCode = 31; // Fallback to '?'
+        
+        let rowData = font8x8[charCode];
+        for (let r = 0; r < 8; r++) {
+            let row = rowData[r];
+            for (let c = 0; c < 8; c++) {
+                if (row & (0x80 >> c)) {
+                    let px = x + (i * 8) + c;
+                    let py = y + r;
+                    if (px >= 0 && px < SCR_W && py >= 0 && py < SCR_H) {
+                        v_mem[py * SCR_W + px] = col;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// --- GLOBALS ---
+const MAX_FILES = 10;
+let mx = 160, my = 100, mb = 0, mb_prev = 0, bg_col = 1, sel_f = -1, renaming_active = 0;
+let rename_buf = "";
+
+let drive = { entries: Array.from({length: MAX_FILES}, () => ({ name: "", sector: 0, active: 0, content: "" })) };
+drive.entries[0] = { name: "README", sector: 110, active: 1, content: "Welcome to ZapczOS V2!" };
+
+let win_exp  = { x: 100, y: 20, w: 110, h: 130, open: 1, focused: 0, title: "Explorer" };
+let win_note = { x: 130, y: 20, w: 170, h: 140, open: 0, focused: 0, title: "Notepad" };
+let win_calc = { x: 180, y: 40, w: 110, h: 140, open: 0, focused: 0, title: "Calculator" };
+let win_term = { x: 20,  y: 80, w: 260, h: 100, open: 0, focused: 1, title: "Terminal" };
+
+let note_buf = "";
+let t_in = "";
+let t_out = ["ZapczOS V2.", "Type 'help'.", "", "", ""];
+
+let cv1 = 0, cv2 = 0, cstg = 0, cop = '';
+let cdisp = "0";
+const cbtns = ['7','8','9','/','4','5','6','*','1','2','3','-','C','0','=','+'];
+
+// --- APP LOGIC ---
+function t_print(s) {
+    t_out.shift(); t_out.push(s);
+}
+function t_exec() {
+    let cmd = t_in.trim();
+    if (cmd.startsWith("help")) t_print("CMD: sysfetch, cls, wallpaper");
+    else if (cmd.startsWith("sysfetch")) { t_print("ZapczOS V2"); t_print("Res: 320x200 True FB"); }
+    else if (cmd.startsWith("cls") || cmd.startsWith("clear")) t_out = ["", "", "", "", ""];
+    else if (cmd.startsWith("wallpaper ")) {
+        let c = parseInt(cmd.substring(10), 10);
+        if (c >= 0 && c <= 7) { bg_col = c; t_print("Wallpaper Changed."); }
+    } else if (cmd !== "") t_print("Unknown Command.");
+    t_in = "";
+}
+
+function calc_logic(b) {
+    if (b >= '0' && b <= '9') {
+        if (cstg === 0 || cstg === 2) { cdisp = b; cstg++; }
+        else { if (cdisp.length < 10) cdisp += b; }
+    } else if (b === 'C') { cv1 = cv2 = cstg = 0; cdisp = "0"; }
+    else if (b === '=') {
+        cv2 = parseInt(cdisp, 10) || 0;
+        if (cop === '+') cv1 += cv2; if (cop === '-') cv1 -= cv2;
+        if (cop === '*') cv1 *= cv2; if (cop === '/' && cv2 !== 0) cv1 = Math.floor(cv1 / cv2);
+        cdisp = cv1.toString(); cstg = 0;
+    } else { cv1 = parseInt(cdisp, 10) || 0; cop = b; cstg = 2; }
+}
+
+// --- INPUT HANDLERS ---
+window.addEventListener('keydown', (e) => {
+    let k = e.key;
+    if (win_term.focused) {
+        if (k === 'Enter') t_exec();
+        else if (k === 'Backspace' && t_in.length > 0) t_in = t_in.slice(0, -1);
+        else if (k.length === 1 && t_in.length < 35) t_in += k;
+        e.preventDefault();
+    } else if (win_note.focused) {
+        if (renaming_active) {
+            if (k === 'Backspace') rename_buf = rename_buf.slice(0, -1);
+            else if (k.length === 1 && rename_buf.length < 10) rename_buf += k;
+            else if (k === 'Enter') {
+                if (sel_f !== -1) drive.entries[sel_f].name = rename_buf.toUpperCase();
+                renaming_active = 0;
+            }
+        } else {
+            if (k === 'Backspace') note_buf = note_buf.slice(0, -1);
+            else if (k.length === 1 && note_buf.length < 500) note_buf += k;
+        }
+        e.preventDefault();
+    }
+});
+
+// Calculate accurate canvas offsets totally ignoring standard borders
+canvas.addEventListener('mousemove', (e) => {
+    mx = Math.floor((e.offsetX / canvas.clientWidth) * SCR_W);
+    my = Math.floor((e.offsetY / canvas.clientHeight) * SCR_H);
+});
+canvas.addEventListener('mousedown', (e) => { if (e.button === 0) mb = 1; });
+canvas.addEventListener('mouseup', (e) => { if (e.button === 0) mb = 0; });
+
+// --- MAIN LOOP ---
+function kmain() {
+    if (mb && !mb_prev) {
+        let ui_hit = 0;
+        if (my > 185) {
+            ui_hit = 1;
+            if (mx < 40)  { win_exp.open = 1; win_exp.focused = 1; win_term.focused = win_calc.focused = win_note.focused = 0; }
+            if (mx > 50 && mx < 90) { win_term.open = 1; win_term.focused = 1; win_exp.focused = win_calc.focused = win_note.focused = 0; }
+            if (mx > 100 && mx < 140) { win_calc.open = 1; win_calc.focused = 1; win_term.focused = win_exp.focused = win_note.focused = 0; }
+        }
+        let ws = [win_exp, win_note, win_calc, win_term];
+        for (let i = 0; i < 4; i++) {
+            let w = ws[i];
+            if (w.open && mx > w.x && mx < w.x + w.w && my > w.y && my < w.y + w.h) {
+                ui_hit = 1; win_exp.focused = win_note.focused = win_calc.focused = win_term.focused = 0; w.focused = 1;
+                if (mx > w.x + w.w - 12 && my < w.y + 12) w.open = 0;
+            }
+        }
+        if (!ui_hit) {
+            for (let f = 0; f < MAX_FILES; f++) {
+                if (drive.entries[f].active) {
+                    let ix = 10 + Math.floor(f / 5) * 80; let iy = 10 + (f % 5) * 34;
+                    if (mx > ix && mx < ix + 70 && my > iy && my < iy + 25) {
+                        sel_f = f; note_buf = drive.entries[f].content;
+                        win_note.open = 1; win_note.focused = 1;
+                        win_exp.focused = win_calc.focused = win_term.focused = renaming_active = 0;
+                    }
+                }
+            }
+        }
+        if (win_exp.focused) {
+            if (mx > win_exp.x + 5 && my > win_exp.y + 110) {
+                for (let i = 0; i < MAX_FILES; i++) if (!drive.entries[i].active) {
+                    drive.entries[i].active = 1; drive.entries[i].name = "NEW"; drive.entries[i].content = ""; break;
+                }
+            }
+            for (let i = 0; i < MAX_FILES; i++) {
+                if (drive.entries[i].active && my > win_exp.y + 15 + (i * 12) && my < win_exp.y + 25 + (i * 12)) {
+                    sel_f = i; note_buf = drive.entries[i].content;
+                    win_note.open = 1; win_note.focused = 1; win_exp.focused = renaming_active = 0;
+                }
+            }
+        }
+        if (win_note.focused) {
+            if (mx > win_note.x + 5 && mx < win_note.x + 45 && my > win_note.y + 115) {
+                if (sel_f !== -1) drive.entries[sel_f].content = note_buf;
+            }
+            if (mx > win_note.x + 55 && mx < win_note.x + 105 && my > win_note.y + 115) {
+                renaming_active = 1; rename_buf = "";
+            }
+        }
+        if (win_calc.focused) {
+            for (let i = 0; i < 16; i++) {
+                let bx = win_calc.x + 5 + (i % 4) * 25, by = win_calc.y + 35 + Math.floor(i / 4) * 25;
+                if (mx > bx && mx < bx + 22 && my > by && my < by + 22) calc_logic(cbtns[i]);
+            }
+        }
+    }
+
+    // DRAWING
+    draw_rect(0, 0, 320, 185, bg_col);
+
+    for (let f = 0; f < MAX_FILES; f++) {
+        if (drive.entries[f].active) {
+            let ix = 10 + Math.floor(f / 5) * 80; let iy = 10 + (f % 5) * 34;
+            draw_rect(ix, iy, 16, 20, 15); draw_rect(ix + 10, iy, 6, 6, 9);
+            draw_txt(ix + 20, iy + 6, drive.entries[f].name, 15);
+        }
+    }
+
+    let draws = [win_exp, win_note, win_calc, win_term];
+    for (let i = 0; i < 4; i++) {
+        let w = draws[i]; if (!w.open) continue;
+        draw_rect(w.x, w.y, w.w, w.h, 7);
+        draw_rect(w.x, w.y, w.w, 12, w.focused ? 9 : 8);
+        draw_txt(w.x + 2, w.y + 2, w.title, 15);
+        draw_rect(w.x + w.w - 10, w.y + 2, 8, 8, 4);
+
+        if (w === win_exp) {
+            for (let f = 0; f < MAX_FILES; f++) if (drive.entries[f].active) draw_txt(w.x + 5, w.y + 15 + (f * 12), drive.entries[f].name, 0);
+            draw_rect(w.x + 5, w.y + 115, 35, 12, 2); draw_txt(w.x + 8, w.y + 117, "NEW", 15);
+        }
+        if (w === win_note) {
+            draw_rect(w.x + 5, w.y + 15, w.w - 10, 95, 15);
+            if (renaming_active) {
+                draw_txt(w.x + 8, w.y + 18, "RENAME TO:", 0); draw_txt(w.x + 8, w.y + 30, rename_buf, 4);
+            } else draw_txt(w.x + 8, w.y + 18, note_buf, 0);
+            draw_rect(w.x + 5, w.y + 115, 40, 12, 1); draw_txt(w.x + 8, w.y + 117, "SAVE", 15);
+            draw_rect(w.x + 55, w.y + 115, 55, 12, 4); draw_txt(w.x + 58, w.y + 117, "RENAME", 15);
+        }
+        if (w === win_calc) {
+            draw_rect(w.x + 5, w.y + 15, w.w - 10, 12, 15); draw_txt(w.x + 8, w.y + 17, cdisp, 0);
+            for (let b = 0; b < 16; b++) {
+                draw_rect(w.x + 5 + (b % 4) * 25, w.y + 35 + Math.floor(b / 4) * 25, 22, 22, 8);
+                draw_txt(w.x + 10 + (b % 4) * 25, w.y + 42 + Math.floor(b / 4) * 25, cbtns[b], 15);
+            }
+        }
+        if (w === win_term) {
+            draw_rect(w.x + 5, w.y + 15, w.w - 10, 80, 0);
+            for (let l = 0; l < 5; l++) draw_txt(w.x + 8, w.y + 18 + (l * 10), t_out[l], 10);
+            draw_txt(w.x + 8, w.y + 75, ">", 15); draw_txt(w.x + 18, w.y + 75, t_in, 15);
+        }
+    }
+
+    draw_rect(0, 185, 320, 15, 0); draw_txt(5, 188, "FILE   TERM   CALC", 15);
+    mb_prev = mb; draw_rect(mx, my, 2, 2, 14);
+
+    // FLUSH V_MEM TO CANVAS
+    for (let i = 0; i < 64000; i++) {
+        let col = v_mem[i];
+        let rgb = PALETTE[col] || PALETTE[0];
+        let idx = i * 4;
+        imgData.data[idx] = rgb[0];
+        imgData.data[idx+1] = rgb[1];
+        imgData.data[idx+2] = rgb[2];
+        imgData.data[idx+3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+
+    requestAnimationFrame(kmain);
+}
+kmain();
+</script>
+</body>
+</html>
