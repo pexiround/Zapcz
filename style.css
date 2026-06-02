@@ -7,7 +7,6 @@ body {
     background: #ffffff;
 }
 
-/* Navbar */
 .navbar { display: flex; align-items: center; padding: 20px 5%; border-bottom: 1px solid #eee; }
 .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
 .logo-area img { width: 40px; }
@@ -15,20 +14,15 @@ body {
 .nav-links a { text-decoration: none; color: #555; font-weight: 500; }
 .nav-links a:hover { color: #000; }
 
-/* Hero */
 .hero { text-align: center; padding: 80px 20px; }
-
-/* Container */
 .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
 
 h2 { margin-bottom: 25px; border-bottom: 2px solid #111; display: inline-block; padding-right: 20px; }
 
-/* Projects */
 .project-card { padding: 30px; border: 1px solid #eee; border-radius: 12px; margin-bottom: 25px; transition: 0.3s; }
 .project-card:hover { border-color: #ccc; }
 .version-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
 
-/* Buttons */
 .btn { 
     display: inline-block; 
     background: #111; 
