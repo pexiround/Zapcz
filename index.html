@@ -3,64 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapcz | Systems & Software</title>
+    <meta name="description" content="Zapcz official project archive for ZapczOS releases, tools, images, source packages, and web demos.">
+    <title>Zapcz Systems Archive</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<nav class="navbar">
-    <div class="logo-area">
-        <img src="zapcz.png" alt="Zapcz Logo">
-        <span>ZAPCZ</span>
-    </div>
-    <ul class="nav-links">
-        <li><a href="#os-projects">OS Projects</a></li>
-        <li><a href="#tools">Tools</a></li>
-    </ul>
-</nav>
-
-<header class="hero">
-    <h1>Independent Systems Development</h1>
-    <p class="tagline">Low-level software, operating systems, and custom tools for full system control.</p>
-</header>
-
-<main class="container">
-    <!-- OS Projects Section -->
-    <section id="os-projects">
-        <h2>Operating Systems</h2>
-        
-        <div class="project-card">
-            <h3>zapczOS v1</h3>
-            <p>Custom 32-bit operating system built from the ground up.</p>
-            <a href="zapczOSv1.img" download class="btn">Download v1</a>
+    <header class="site-header">
+        <div class="top-strip">
+            <span>Zapcz Systems Archive</span>
+            <span class="hide-small">Public build index</span>
         </div>
 
-        <div class="project-card">
-            <h3>zapczOS v2 Series</h3>
-            <p>The latest iteration featuring performance improvements and stability updates.</p>
-            <div class="version-group">
-                <a href="zapczOS2.img" download class="btn secondary">Download v2.0</a>
-                <a href="zapczv2.1.html" class="btn">Launch v2.1 (Web Demo)</a>
-                <a href="zapczOS2.1.img" download class="btn secondary">Download v2.1</a>
+        <nav class="navbar" aria-label="Primary navigation">
+            <a class="brand" href="#top" aria-label="Zapcz home">
+                <img src="zapcz.png" alt="" width="44" height="31">
+                <span>
+                    <strong>ZAPCZ</strong>
+                    <small>Operating systems and utilities</small>
+                </span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#download">Download</a>
+                <a href="#releases">Releases</a>
+                <a href="#screens">Screens</a>
+                <a href="#tools">Tools</a>
             </div>
-        </div>
-    </section>
+        </nav>
+    </header>
 
-    <!-- Tools Section -->
-    <section id="tools">
-        <h2>Tools & Utilities</h2>
-        
-        <div class="project-card">
-            <h3>zapcz Shell</h3>
-            <p>Custom command-line interface for system interaction.</p>
-            <a href="zapcz_shell.exe" download class="btn">Download Shell</a>
-        </div>
+    <main id="top">
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Current public release</p>
+                <h1>ZapczOS V3</h1>
+                <p class="lead">A small independent operating system project with bootable images, source packages, browser demos, and command-line tools kept in one public archive.</p>
 
- </section>
-</main>
+                <div class="hero-actions" id="download">
+                    <a class="btn primary" href="zapczosv3.iso" download>Download V3 ISO</a>
+                    <a class="btn" href="ZapczOSV3SOURCE.zip" download>Download V3 Source</a>
+                    <a class="btn quiet" href="zapczv2.1.html">Open V2.1 Web Demo</a>
+                </div>
 
-<footer>
-    <p>© 2026 Zapcz. All rights reserved.</p>
-</footer>
+                <dl class="release-stats" aria-label="ZapczOS V3 release details">
+                    <div>
+                        <dt>Image</dt>
+                        <dd>ISO</dd>
+                    </div>
+                    <div>
+                        <dt>Size</dt>
+                        <dd>74.7 MB</dd>
+                    </div>
+                    <div>
+                        <dt>Source</dt>
+                        <dd>11.3 MB</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <figure class="hero-screen">
+                <img src="zapczosv3_bootscreen.png" alt="ZapczOS V3 boot screen">
+                <figcaption>ZapczOS V3 boot screen capture</figcaption>
+            </figure>
+        </section>
+
+        <section class="notice" aria-label="Archive notice">
+            <strong>Distribution note:</strong>
+            <span>Files are served directly from this GitHub Pages repository. Use the ISO for boot testing and the source package for code inspection.</span>
+        </section>
+
+        <section class="section-grid" id="releases">
+            <div class="section-heading">
+                <p class="eyebrow">Release index</p>
+                <h2>Downloads</h2>
+            </div>
+
+            <div class="release-table" role="table" aria-label="ZapczOS release downloads">
+                <div class="release-row header" role="row">
+                    <span role="columnheader">Build</span>
+                    <span role="columnheader">File</span>
+                    <span role="columnheader">Type</span>
+                    <span role="columnheader">Action</span>
+                </div>
+
+                <div class="release-row featured" role="row">
+                    <span role="cell"><strong>ZapczOS V3</strong><small>Latest public image</small></span>
+                    <span role="cell">zapczosv3.iso</span>
+                    <span role="cell">Bootable ISO</span>
+                    <span role="cell"><a href="zapczosv3.iso" download>Download</a></span>
+                </div>
+
+                <div class="release-row" role="row">
+                    <span role="cell"><strong>ZapczOS V3 Source</strong><small>Code package</small></span>
+                    <span role="cell">ZapczOSV3SOURCE.zip</span>
+                    <span role="cell">ZIP archive</span>
+                    <span role="cell"><a href="ZapczOSV3SOURCE.zip" download>Download</a></span>
+                </div>
+
+                <div class="release-row" role="row">
+                    <span role="cell"><strong>ZapczOS 2.1</strong><small>Disk image</small></span>
+                    <span role="cell">zapczOS2.1.img</span>
+                    <span role="cell">IMG</span>
+                    <span role="cell"><a href="zapczOS2.1.img" download>Download</a></span>
+                </div>
+
+                <div class="release-row" role="row">
+                    <span role="cell"><strong>ZapczOS 2.1</strong><small>Browser demo</small></span>
+                    <span role="cell">zapczv2.1.html</span>
+                    <span role="cell">Web demo</span>
+                    <span role="cell"><a href="zapczv2.1.html">Launch</a></span>
+                </div>
+
+                <div class="release-row" role="row">
+                    <span role="cell"><strong>ZapczOS 2.0</strong><small>Disk image</small></span>
+                    <span role="cell">zapczOS2.img</span>
+                    <span role="cell">IMG</span>
+                    <span role="cell"><a href="zapczOS2.img" download>Download</a></span>
+                </div>
+
+                <div class="release-row" role="row">
+                    <span role="cell"><strong>ZapczOS V1</strong><small>First public image</small></span>
+                    <span role="cell">zapczOSv1.img</span>
+                    <span role="cell">IMG</span>
+                    <span role="cell"><a href="zapczOSv1.img" download>Download</a></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-grid screens-section" id="screens">
+            <div class="section-heading">
+                <p class="eyebrow">System captures</p>
+                <h2>Screens</h2>
+            </div>
+
+            <div class="screen-gallery">
+                <figure>
+                    <img src="zapczosv3_bootscreen.png" alt="ZapczOS V3 boot screen">
+                    <figcaption>V3 boot screen</figcaption>
+                </figure>
+                <figure>
+                    <img src="zapczosv3_crashlog.png" alt="ZapczOS V3 crash log">
+                    <figcaption>V3 crash log</figcaption>
+                </figure>
+                <figure>
+                    <img src="zapczosv1pic1.png" alt="ZapczOS V1 screenshot">
+                    <figcaption>V1 desktop capture</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section-grid" id="tools">
+            <div class="section-heading">
+                <p class="eyebrow">Utilities</p>
+                <h2>Tools</h2>
+            </div>
+
+            <div class="tool-panel">
+                <div>
+                    <h3>Zapcz Shell</h3>
+                    <p>Standalone command-line utility for Windows builds and local testing.</p>
+                </div>
+                <a class="btn primary" href="zapcz_shell.exe" download>Download EXE</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <span>Copyright 2026 Zapcz.</span>
+        <span>Static archive hosted with GitHub Pages.</span>
+    </footer>
+    <script src="app.js"></script>
 </body>
 </html>
