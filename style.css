@@ -48,6 +48,7 @@ img {
 
 .top-strip {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: 16px;
     padding: 7px clamp(16px, 4vw, 52px);
@@ -56,6 +57,26 @@ img {
     font: 700 12px/1.2 "Courier New", monospace;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+}
+
+.v4-note {
+    color: #f2d77a;
+    text-align: center;
+}
+
+.visitor-counters {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+    white-space: nowrap;
+}
+
+.counter-divider {
+    display: inline-block;
+    width: 1px;
+    height: 14px;
+    background: #8a8a8a;
 }
 
 .navbar {
@@ -438,10 +459,31 @@ figcaption {
 @media (max-width: 620px) {
     main {
         width: min(100% - 24px, 1160px);
+        overflow-x: hidden;
     }
 
-    .hide-small {
-        display: none;
+    .top-strip {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .v4-note {
+        text-align: left;
+    }
+
+    .visitor-counters {
+        gap: 7px;
+        justify-content: flex-start;
+    }
+
+    h1 {
+        font-size: clamp(38px, 12vw, 46px);
+    }
+
+    .lead {
+        width: min(100%, 320px);
+        max-width: 100%;
     }
 
     .nav-links a {
