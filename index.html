@@ -6,7 +6,7 @@
     <meta name="description" content="Zapcz official project archive for ZapczOS releases, tools, images, source packages, and web demos.">
     <title>Zapcz Systems Archive</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+    <link rel="stylesheet" href="bionic.css">
 </head>
 <body>
     <header class="site-header">
@@ -34,6 +34,7 @@
                 <a href="#releases">Releases</a>
                 <a href="#screens">Screens</a>
                 <a href="#tools">Tools</a>
+                <button type="button" class="bionic-toggle" id="bionic-toggle" aria-pressed="false">Bionic <span id="bionic-state">off</span></button>
             </div>
         </nav>
     </header>
@@ -164,12 +165,22 @@
                 <h2>Tools</h2>
             </div>
 
-            <div class="tool-panel">
-                <div>
-                    <h3>Zapcz Shell</h3>
-                    <p>Standalone command-line utility for Windows builds and local testing.</p>
+            <div class="tool-list">
+                <div class="tool-panel">
+                    <div>
+                        <h3>Zapcz Shell</h3>
+                        <p>Standalone command-line utility for Windows builds and local testing.</p>
+                    </div>
+                    <a class="btn primary" href="zapcz_shell.exe" download>Download EXE</a>
                 </div>
-                <a class="btn primary" href="zapcz_shell.exe" download>Download EXE</a>
+
+                <div class="tool-panel">
+                    <div>
+                        <h3>Bionic Reading</h3>
+                        <p>Chrome extension that bolds the leading letters of every word so the eye has a fixation target, with a fixation slider and a per-site switch. Unzip it, open the extensions page, turn on developer mode and load it unpacked. The toggle in the navigation bar above runs the same effect on this page.</p>
+                    </div>
+                    <a class="btn primary" href="bionic-reading.zip" download>Download ZIP</a>
+                </div>
             </div>
         </section>
     </main>
@@ -179,5 +190,6 @@
         <span>Static archive hosted with GitHub Pages.</span>
     </footer>
     <script src="app.js"></script>
+    <script src="bionic.js"></script>
 </body>
 </html>
