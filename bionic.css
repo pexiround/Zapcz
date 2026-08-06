@@ -1,0 +1,52 @@
+.bionic-toggle {
+    min-height: 34px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    background: var(--panel-alt);
+    color: var(--ink);
+    font: 700 12px/1.2 "Courier New", monospace;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.bionic-toggle:hover,
+.bionic-toggle:focus-visible {
+    background: var(--ink);
+    color: #fff;
+}
+
+.bionic-toggle[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+}
+
+.bionic-toggle[aria-pressed="true"]:hover,
+.bionic-toggle[aria-pressed="true"]:focus-visible {
+    border-color: var(--accent-dark);
+    background: var(--accent-dark);
+}
+
+.tool-list {
+    display: grid;
+    gap: 14px;
+}
+
+main bionic-w {
+    display: inline;
+}
+
+main bionic-f {
+    font-weight: bolder;
+}
+
+main bionic-t {
+    color: color-mix(in srgb, currentColor 62%, transparent);
+}
+
+@media (max-width: 620px) {
+    .bionic-toggle {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+}
