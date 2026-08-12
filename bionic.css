@@ -46,7 +46,8 @@ main bionic-t {
 
 @media (max-width: 620px) {
     .bionic-toggle {
-        flex: 1 1 auto;
+        flex: 1 1 calc(50% - 6px);
+        min-width: 0;
         text-align: center;
     }
 }
